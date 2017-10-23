@@ -30,10 +30,14 @@ echo "Try again against google DNS"
 dig +trace umich.edu ns @8.8.8.8
 sleep 5
 
-echo "Trying to traceroute each NS for umich.edu"
-traceroute 192.12.80.222 # dns2.itd.umich.edu.
-traceroute 192.12.80.214 # dns1.itd.umich.edu.
-traceroute 128.105.2.10  # dns.cs.wisc.edu.
+echo "Reverse looking up umich dns NS"
+dig +trace -x 192.12.80.214 # dns1.itd.umich.edu
+dig +trace -x 192.12.80.222 # dns2.itd.umich.edu
+
+echo "Try against umich.edu DNS servers directly"
+dig +trace weblogin.umich.edu @192.12.80.214 # dns1.itd.umich.edu
+dig +trace weblogin.umich.edu @192.12.80.222 # dns2.itd.umich.edu
+sleep 5
 
 echo "And we know we can reach campus by IP"
 echo 141.211.243.174 == weblogin.mc.itd.umich.edu == weblogin.umich.edu
